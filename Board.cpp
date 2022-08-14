@@ -132,7 +132,7 @@ void Board::doUp()
                             m_cards[k][j]->change(std::to_string(m_nums[k][j]));
                             m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
                       }
-
+                    break;
                     }
                 }
             }
@@ -173,6 +173,7 @@ void Board::doDown()
                         m_cards[k][j]->change(std::to_string(m_nums[k][j]));
                         m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
                     }
+                    break;
 
                 }
             }
@@ -213,7 +214,7 @@ void Board::doLeft()
                             m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
                             isDo=true;
                         }
-
+                        break;
                     }
 
 
@@ -255,6 +256,7 @@ void Board::doRight()
                             m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
                             isDo=true;
                        }
+                        break;
 
                    }
 

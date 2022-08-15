@@ -24,6 +24,15 @@ public:
     void doLeft();
     void doRight();
 
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
+
+    void sumUp();
+    void sumDown();
+    void sumLeft();
+    void sumRight();
 
     void render();
     void clean();
@@ -36,7 +45,7 @@ public:
    //generate random card
     void generateRandomCard();
 private:
-
+   bool isDo;
 
 };
 #endif // __Board__

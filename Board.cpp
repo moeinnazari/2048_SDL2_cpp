@@ -4,7 +4,7 @@
 
 Board::Board()
 {
-
+  isDo=false;
 
    for(int i=0;i<4;i++){
     for(int j=0;j<4;j++)
@@ -101,174 +101,241 @@ void Board::generateRandomCard()
     }
 }
 
+
 void Board::doUp()
 {
-    bool isDo=false;
-    for(int j=0;j<4;j++)
-    {
-        for(int i=0;i<3;i++)
-        {
-            for(int k=i+1;k<4;k++)
-                {
-                    if(m_nums[k][j]>0)
-                    {
-                      if(m_nums[i][j]==0)
-                      {
-
-                        m_nums[i][j]=m_nums[k][j];
-                        m_nums[k][j]=0;
-                        isDo=true;
-                        m_cards[i][j]->change(std::to_string(m_nums[i][j]));
-                        m_cards[k][j]->change(std::to_string(m_nums[k][j]));
-
-                      }
-                      if(m_nums[i][j]==m_nums[k][j])
-                      {
-                            score+=m_nums[k][j];
-                            m_nums[i][j]+=m_nums[k][j];
-                            m_nums[k][j]=0;
-                            isDo=true;
-                            m_cards[i][j]->change(std::to_string(m_nums[i][j]));
-                            m_cards[k][j]->change(std::to_string(m_nums[k][j]));
-                            m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
-                      }
-                    break;
-                    }
-                }
-            }
-    }
+    moveUp();
+    sumUp();
+    moveUp();
 
     if(isDo)
     {
         generateRandomCard();
+        isDo=false;
     }
 }
 
 void Board::doDown()
 {
-    bool isDo=false;
-    for(int j=0;j<4;j++)
-    {
-        for(int i=3;i>0;i--)
-        {
-            for(int k=i-1;k>=0;k--)
-            {
-                if(m_nums[k][j]>0)
-                {
-                    if(m_nums[i][j]==0)
-                    {
-                            m_nums[i][j]=m_nums[k][j];
-                            m_nums[k][j]=0;
-                            m_cards[i][j]->change(std::to_string(m_nums[i][j]));
-                            m_cards[k][j]->change(std::to_string(m_nums[k][j]));
-                            isDo=true;
-                    }
-                    if(m_nums[i][j]==m_nums[k][j])
-                    {
-                        score+=m_nums[k][j];
-                        m_nums[i][j]+=m_nums[k][j];
-                        m_nums[k][j]=0;
-                        isDo=true;
-                        m_cards[i][j]->change(std::to_string(m_nums[i][j]));
-                        m_cards[k][j]->change(std::to_string(m_nums[k][j]));
-                        m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
-                    }
-                    break;
-
-                }
-            }
-        }
-    }
+    moveDown();
+    sumDown();
+    moveDown();
 
     if(isDo)
     {
         generateRandomCard();
+        isDo=false;
     }
 }
+
 void Board::doLeft()
 {
-        bool isDo=false;
-        for(int i=0;i<4;i++)
-        {
-            for(int j=0;j<3;j++)
-            {
-                for(int k=j+1;k<4;k++)
-                {
-                    if(m_nums[i][k]>0)
-                    {
-                        if(m_nums[i][j]==0)
-                        {
-                            m_nums[i][j]=m_nums[i][k];
-                            m_nums[i][k]=0;
-                            m_cards[i][j]->change(std::to_string(m_nums[i][j]));
-                            m_cards[i][k]->change(std::to_string(m_nums[i][k]));
-                            isDo=true;
-                        }
-                        if(m_nums[i][j]==m_nums[i][k])
-                        {
-                            score+=m_nums[i][k];
-                            m_nums[i][j]*=2;
-                            m_nums[i][k]=0;
-                            m_cards[i][j]->change(std::to_string(m_nums[i][j]));
-                            m_cards[i][k]->change(std::to_string(m_nums[i][k]));
-                            m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
-                            isDo=true;
-                        }
-                        break;
-                    }
+    moveLeft();
+    sumLeft();
+    moveLeft();
 
-
-                }
-
-            }
-        }
-        if(isDo)
-        {
-            generateRandomCard();
-        }
+    if(isDo)
+    {
+        generateRandomCard();
+        isDo=false;
+    }
 }
+
 void Board::doRight()
 {
-       bool isDo=false;
-       for(int i=0;i<4;i++)
+    moveRight();
+    sumRight();
+    moveRight();
+
+    if(isDo)
+    {
+        generateRandomCard();
+        isDo=false;
+    }
+}
+void Board::moveUp()
+{
+   for(int i=0;i<4;i++)
+   {
+       for(int j=0;j<4;j++)
        {
-           for(int j=3;j>0;j--)
+           if(m_nums[j][i]==0)
            {
-               for(int k=j-1;k>=0;k--)
+               for(int k=j+1;k<4;k++)
                {
-                   if(m_nums[i][k]>0)
+                   if(m_nums[k][i])
                    {
-                       if(m_nums[i][j]==0)
-                       {
-                            m_nums[i][j]=m_nums[i][k];
-                            m_nums[i][k]=0;
-                            m_cards[i][j]->change(std::to_string(m_nums[i][j]));
-                            m_cards[i][k]->change(std::to_string(m_nums[i][k]));
-                            isDo=true;
-                       }
-                       if(m_nums[i][j]==m_nums[i][k])
-                       {
-                            score+=m_nums[i][k];
-                            m_nums[i][j]*=2;
-                            m_nums[i][k]=0;
-                            m_cards[i][j]->change(std::to_string(m_nums[i][j]));
-                            m_cards[i][k]->change(std::to_string(m_nums[i][k]));
-                            m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
-                            isDo=true;
-                       }
-                        break;
+                       m_nums[j][i]=m_nums[k][i];
+                       m_nums[k][i]=0;
+                       m_cards[j][i]->change(std::to_string(m_nums[j][i]));
+                       m_cards[k][i]->change(std::to_string(m_nums[k][i]));
+                       isDo=true;
+                       break;
 
                    }
-
                }
            }
        }
-        if(isDo)
-        {
-            generateRandomCard();
-        }
+   }
 }
 
+void Board::moveDown()
+{
+   for(int i=0;i<4;i++)
+   {
+       for(int j=3;j>=0;j--)
+       {
+           if(m_nums[j][i]==0)
+           {
+               for(int k=j-1;k>=0;k--)
+               {
+                   if(m_nums[k][i])
+                   {
+                       m_nums[j][i]=m_nums[k][i];
+                       m_nums[k][i]=0;
+                       m_cards[j][i]->change(std::to_string(m_nums[j][i]));
+                       m_cards[k][i]->change(std::to_string(m_nums[k][i]));
+                       isDo=true;
+                       break;
+
+                   }
+               }
+           }
+       }
+   }
+}
+
+void Board::moveLeft()
+{
+   for(int i=0;i<4;i++)
+   {
+       for(int j=0;j<4;j++)
+       {
+           if(m_nums[i][j]==0)
+           {
+               for(int k=j+1;k<4;k++)
+               {
+                   if(m_nums[i][k])
+                   {
+                       m_nums[i][j]=m_nums[i][k];
+                       m_nums[i][k]=0;
+                       m_cards[i][j]->change(std::to_string(m_nums[i][j]));
+                       m_cards[i][k]->change(std::to_string(m_nums[i][k]));
+                       isDo=true;
+                       break;
+
+                   }
+               }
+           }
+       }
+   }
+}
+
+void Board::moveRight()
+{
+   for(int i=0;i<4;i++)
+   {
+       for(int j=3;j>=0;j--)
+       {
+           if(m_nums[i][j]==0)
+           {
+               for(int k=j-1;k>=0;k--)
+               {
+                   if(m_nums[i][k])
+                   {
+                       m_nums[i][j]=m_nums[i][k];
+                       m_nums[i][k]=0;
+                       m_cards[i][j]->change(std::to_string(m_nums[i][j]));
+                       m_cards[i][k]->change(std::to_string(m_nums[i][k]));
+                       isDo=true;
+                       break;
+
+                   }
+               }
+           }
+       }
+   }
+}
+
+void Board::sumUp()
+{
+    for(int i=0;i<4;i++)
+    {
+        for(int j=0;j<3;j++)
+        {
+            if(m_nums[j][i] && m_nums[j][i]==m_nums[j+1][i])
+            {
+                score+=m_nums[j][i];
+                m_nums[j][i]+=m_nums[j+1][i];
+                m_nums[j+1][i]=0;
+                isDo=true;
+                m_cards[j][i]->change(std::to_string(m_nums[j][i]));
+                m_cards[j+1][i]->change(std::to_string(m_nums[j+1][i]));
+                m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
+            }
+        }
+    }
+}
+
+void Board::sumDown()
+{
+   for(int i=0;i<4;i++)
+   {
+       for(int j=3;j>0;j--)
+       {
+           if(m_nums[j][i] && m_nums[j-1][i]==m_nums[j][i])
+           {
+                score+=m_nums[j][i];
+                m_nums[j][i]+=m_nums[j-1][i];
+                m_nums[j-1][i]=0;
+                isDo=true;
+                m_cards[j][i]->change(std::to_string(m_nums[j][i]));
+                m_cards[j-1][i]->change(std::to_string(m_nums[j-1][i]));
+                m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
+           }
+       }
+   }
+}
+
+void Board::sumLeft()
+{
+  for(int i=0;i<4;i++)
+  {
+      for(int j=0;j<3;j++)
+      {
+          if(m_nums[i][j] && m_nums[i][j+1]==m_nums[i][j])
+          {
+                score+=m_nums[i][j];
+                m_nums[i][j]+=m_nums[i][j+1];
+                m_nums[i][j+1]=0;
+                isDo=true;
+                m_cards[i][j]->change(std::to_string(m_nums[i][j]));
+                m_cards[i][j+1]->change(std::to_string(m_nums[i][j+1]));
+                m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
+          }
+      }
+  }
+}
+
+void Board::sumRight()
+{
+for(int i=0;i<4;i++)
+{
+    for(int j=3;j>0;j--)
+    {
+        if(m_nums[i][j] && m_nums[i][j-1]==m_nums[i][j])
+        {
+                score+=m_nums[i][j];
+                m_nums[i][j]+=m_nums[i][j-1];
+                m_nums[i][j-1]=0;
+                isDo=true;
+                m_cards[i][j]->change(std::to_string(m_nums[i][j]));
+                m_cards[i][j-1]->change(std::to_string(m_nums[i][j-1]));
+                m_scoreInt->loadFileFromText(std::to_string(score),COLOR_BLACK,FONT_LABEL);
+        }
+    }
+}
+}
 
 void Board::render()
 {
